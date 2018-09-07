@@ -1,0 +1,63 @@
+@startuml
+
+!define RESOURCE #AAFFAA
+!define EVENT #FFAA00
+
+note as N1
+R:Resource
+E:Event
+end note
+
+/'
+# 課題3
+
+グローバル物販サービスを設計するにあたって、以下の要件にもとづいてデータモデル設計をしたい。
+
+- A社は世界各国に部品を供給しているインダストリーである
+- 国によって法律が異なるため、卸せる国と卸せない国とがある
+- 法律に関わるリスクを最小限におさえるために適切なデータモデルを設計したい
+'/
+
+entity "国" as country <<R,RESOURCE>> {
+  + 国ID
+  --
+  国名
+}
+
+entity "会社" as company <<R,RESOURCE>> {
+  + 会社ID
+  --
+  会社名
+}
+
+entity "部品" as product <<R,RESOURCE>> {
+  + 部品ID
+  --
+  # 会社ID
+  製品名
+}
+
+entity "輸出可否" as export_capacity <<E,EVENT>> {
+  + 輸出可否ID
+  --
+  # 国ID
+  # 部品ID
+  輸出可否
+  輸出可否決定日時
+}
+
+entity "輸出" as export <<E,EVENT>> {
+  + 輸出ID
+  --
+  # 国ID
+  # 部品ID
+  輸出日時
+}
+
+company-d-{product
+product-d-{export_capacity
+country-d-{export_capacity
+product-d-{export
+country-d-{export
+
+@enduml

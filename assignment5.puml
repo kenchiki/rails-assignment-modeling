@@ -1,0 +1,76 @@
+@startuml
+
+!define RESOURCE #AAFFAA
+!define EVENT #FFAA00
+
+note as N1
+R:Resource
+E:Event
+end note
+
+/'
+# 課題5
+
+レギュラー出演している芸能人を局内で管理するシステムを設計するにあたって、以下の要件にもとづいてデータモデル設計をしたい。
+
+- ある番組でレギュラー出演している芸能人のデータを管理したい
+- 芸能人の名前は期間によって変わる
+- 芸能人の所属事務所も期間によって変わる
+- 番組名も期間によって変わる
+- 期間によって変わる番組名、芸能人自体は同じものとみなし、ある時点でレギュラー出演している芸能人を、そのときの名前、そのときの所属事務所で把握したい
+'/
+
+entity "芸能人" as entertainer <<R,RESOURCE>> {
+  + 芸能人ID
+  --
+}
+
+entity "番組" as program <<R,RESOURCE>> {
+  + 番組ID
+  --
+}
+
+entity "事務所" as affiliation_office <<R,RESOURCE>> {
+  + 事務所ID
+  --
+  事務所名
+}
+
+entity "所属" as affiliation <<E,EVENT>> {
+  + 所属ID
+  --
+  # 芸能人ID
+  # 事務所ID
+  適用開始日時
+}
+
+entity "芸名" as stage_name <<E,EVENT>> {
+  + 芸名ID
+  --
+  # 芸能人ID
+  芸名
+  適用開始日時
+}
+
+entity "番組名" as program_name <<E,EVENT>> {
+  + 番組名ID
+  --
+  # 番組名ID
+  番組名
+  適用開始日時
+}
+
+entity "出演" as appear_tv <<E,EVENT>> {
+  + 出演ID
+  --
+  出演日時
+}
+
+entertainer-u-{stage_name
+program-u-{program_name
+entertainer-d-{appear_tv
+program-d-{appear_tv
+affiliation_office-u-{affiliation
+entertainer-u-{affiliation
+
+@enduml

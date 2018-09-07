@@ -1,0 +1,39 @@
+@startuml
+
+!define RESOURCE #AAFFAA
+!define EVENT #FFAA00
+
+note as N1
+R:Resource
+E:Event
+end note
+
+/'
+# 課題2
+
+ミニSNSサービスを設計するにあたって、以下の要件にもとづいてデータモデル設計をしたい。
+
+- ユーザーは他のユーザーをフォローすることができる
+- ユーザーはフォローしているユーザーの一覧を見ることができる
+- ユーザーはフォローしてくれているユーザーの一覧を見ることができる
+'/
+
+
+entity "ユーザー" as user <<R,RESOURCE>> {
+  + ユーザーID
+  --
+  ユーザー名
+}
+
+
+entity "フォロー" as friendship <<E,EVENT>> {
+  + フォローID
+  --
+  # ユーザーID
+  # フォローユーザーID
+}
+
+user-d-{friendship
+user-d-{friendship
+
+@enduml

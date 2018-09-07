@@ -1,0 +1,79 @@
+@startuml
+
+!define RESOURCE #AAFFAA
+!define EVENT #FFAA00
+
+note as N1
+R:Resource
+E:Event
+end note
+
+/'
+# 課題1
+
+オンラインレッスンサービスを設計するにあたって、以下の要件にもとづいてデータモデル設計をしたい。
+
+- 講師はレッスンを登録することができる
+- レッスンにはレッスン日時を設定することができる
+- 生徒はレッスンを予約することができる
+- レッスン後、講師は生徒にレッスンコメントを返すことができる
+- 生徒はレッスン予約をキャンセルすることができる
+'/
+
+entity "講師" as teacher <<R,RESOURCE>> {
+  + 講師ID
+  --
+  講師名
+}
+
+entity "生徒" as student <<R,RESOURCE>> {
+  + 生徒ID
+  --
+  生徒名
+}
+
+entity "レッスン" as lesson <<E,EVENT>> {
+  + レッスンID
+  --
+  レッスン日時
+}
+
+entity "レッスン実績" as lesson_achievement <<E,EVENT>> {
+  + レッスン実績ID
+  --
+  # レッスンID
+  適用開始日時
+}
+
+entity "予約" as reservation <<E,EVENT>> {
+  + 予約ID
+  --
+  # レッスンID
+  # 生徒ID
+  予約日時
+}
+
+entity "予約キャンセル" as reservation_cancel <<E,EVENT>> {
+  + 予約キャンセルID
+  --
+  # 予約ID
+  予約キャンセル日時
+}
+
+entity "レッスンコメント" as comment <<E,EVENT>> {
+  + レッスンコメントID
+  --
+  # レッスンID
+  # 生徒ID
+  レッスンコメント日時
+}
+
+teacher-d-{lesson
+lesson-d-{reservation
+lesson-d-{comment
+student-d-{reservation
+student-d-{comment
+lesson-d-{lesson_achievement
+reservation-d-{reservation_cancel
+
+@enduml
